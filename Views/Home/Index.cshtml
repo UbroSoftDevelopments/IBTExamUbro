@@ -1,0 +1,109 @@
+﻿<div class="jumbotron">
+    <h1>Ubrosoft</h1>
+    <p class="lead">Ubrosoft has ultra mordern Assessment procegures .</p>
+    <p><a href="https://ubrosoft.com"class="btn btn-primary btn-lg">Get Demo &raquo;</a></p>
+</div>
+
+
+@*<video id="your-video-id" width="120" height="103" autoplay style="border:2px solid">
+
+</video>
+<div class="left">
+    <div id="startButton" class="button">
+        Start
+    </div>
+</div>*@
+
+@*<script src="~/Scripts/RecordRTC.js"></script>*@
+
+@*<script>
+
+    // capture candi_camera and/or microphone
+    const enrollmentddd = "ok"
+    var recorder;
+    let candi_camera;
+    // auto stop recording after 10 seconds change to
+    var milliSeconds = 11 * 1000;
+    navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then(function (candi_camera) {
+
+        // preview candi_camera during recording
+        document.getElementById('your-video-id').muted = true;
+        document.getElementById('your-video-id').srcObject = candi_camera;
+        
+        candi_camera = candi_camera;
+        // recording configuration/hints/parameters
+        var recordingHints = {
+            type: 'video'
+        };
+
+        // initiating the recorder
+        recorder = RecordRTC(candi_camera, recordingHints);
+        startRecording();
+        // // starting recording here
+        // recorder.startRecording();          
+
+    });
+
+
+    function startRecording() {
+        //alert();
+        recorder.startRecording();
+
+        setTimeout(function () {
+            console.log('stop record');
+            // stop recording
+            recorder.stopRecording(function () {
+
+                // get recorded blob
+                let Vblob = recorder.getBlob();
+
+                // generating a random file name
+                var fileName = getFileName('webm');
+
+                // we need to upload "File" --- not "Blob"
+                var fileObject = new File([Vblob], 'webm', {
+                    type: 'video/webm'
+                });
+                var formData = new FormData();
+                formData.append("VideoFileId", enrollmentddd);
+                formData.append("Filename", fileObject);
+                let headerr = new Headers();            
+                headerr.append('Access-Control-Allow-Origin', '*');
+                $.ajax({
+                    url: 'https://ibtexamubroapi.azurewebsites.net/api/FileAPI/UploadFiles', // replace with your own server URL
+                    data: formData,
+                    headers: headerr,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    type: 'POST',
+                    success: function (response) {
+                        console.log("upload response", response);
+                        startRecording();
+                    }
+                });
+
+            });
+
+        }, milliSeconds);
+    }
+
+    var counter = 0;
+    function getFileName(fileExtension) {
+        counter++;
+        return enrollmentddd + '-' + counter + '-' + getRandomString() + '.' + fileExtension;
+
+    }
+    function getRandomString() {
+        if (window.crypto && window.crypto.getRandomValues && navigator.userAgent.indexOf('Safari') === -1) {
+            var a = window.crypto.getRandomValues(new Uint32Array(3)),
+                token = '';
+            for (var i = 0, l = a.length; i < l; i++) {
+                token += a[i].toString(36);
+            }
+            return token;
+        } else {
+            return (Math.random() * new Date().getTime()).toString(36).replace(/\./g, '');
+        }
+    }
+    </script>*@
